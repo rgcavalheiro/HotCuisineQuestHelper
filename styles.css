@@ -1,0 +1,130 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f0f0f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#iphoneContainer {
+    width: 480px; /* Aumentado para maior espaçamento */
+    height: 850px; /* Aumentado para acomodar mais conteúdo */
+    background-color: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+input[type="range"] {
+    width: 80%;
+    max-width: 300px;
+    margin: 10px 0;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
+
+button:active {
+    background-color: #004494;
+}
+
+.market-table, .step-table {
+    width: 90%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 20px;
+    text-align: center;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.market-table th, .market-table td, .step-table th, .step-table td {
+    padding: 6px 8px;
+    border: 1px solid #e5e5ea;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.market-table th, .step-table th {
+    background-color: #f7f7fa;
+    font-weight: bold;
+}
+
+.market-table td, .step-table td {
+    font-weight: bold;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+/* Estilo do botão de recomeçar */
+#restartQuest {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+#restartQuest:hover {
+    background-color: #c62b1f;
+}
+
+#restartQuest:active {
+    background-color: #a42118;
+}
+
+/* Correção adicional para centralização da tabela */
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    text-align: center;
+}

@@ -15,60 +15,28 @@
 
     <main id="app" class="app">
         <header class="app-brand">
-            <p class="brand-kicker">Tibia Quest Helper</p>
-            <h1 class="brand-title">Hot Cuisine</h1>
+            <div class="brand-text">
+                <p class="brand-kicker">Tibia Quest Helper</p>
+                <h1 class="brand-title">Hot Cuisine</h1>
+            </div>
+            <button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" title="Apagar a luz">
+                <span class="theme-toggle-icon" aria-hidden="true">?</span>
+                <span class="theme-toggle-label">Apagar a luz</span>
+            </button>
         </header>
 
-        <section id="initialScreen" class="screen screen--hero" aria-labelledby="heroHeading">
-            <div class="hero-copy">
-                <h2 id="heroHeading" class="hero-heading">Rota otimizada de compras</h2>
-                <p class="hero-lead">Monte sua lista, escolha quantas receitas fazer e siga cidade a cidade at&eacute; o chef.</p>
-            </div>
+        <div id="journeyChrome" class="journey-chrome" hidden>
+            <nav id="journeyTracker" class="journey-tracker" aria-label="Fases da quest"></nav>
+            <p id="stepContext" class="step-context"></p>
+        </div>
 
-            <div class="recipe-picker">
-                <label for="recipeRange">Receitas</label>
-                <div class="recipe-controls">
-                    <input type="range" id="recipeRange" min="1" max="10" value="1">
-                    <span id="rangeValue" class="recipe-count">1</span>
-                </div>
-            </div>
+        <div id="viewRoot" class="view-root" aria-live="polite"></div>
 
-            <button type="button" id="startQuest" class="btn btn-primary">Iniciar Quest</button>
-        </section>
-
-        <section id="marketScreen" class="screen" style="display:none;" aria-labelledby="marketHeading">
-            <div class="screen-header screen-header--row">
-                <div>
-                    <h2 id="marketHeading">Itens do Market</h2>
-                    <p class="screen-sub">Compre no depot antes de come&ccedil;ar a rota.</p>
-                </div>
-                <div class="actions actions--inline">
-                    <button type="button" id="backFromMarket" class="btn btn-ghost">Voltar</button>
-                    <button type="button" id="goToSteps" class="btn btn-primary">Ir para os Passos</button>
-                </div>
-            </div>
-
-            <div id="marketGrid" class="item-grid" aria-label="Lista de itens do market"></div>
-        </section>
-
-        <section id="stepContent" class="screen" style="display:none;" aria-labelledby="stepTitle">
-            <div class="screen-header screen-header--row">
-                <div class="step-heading-wrap">
-                    <div class="step-meta">
-                        <div id="stepProgress" class="step-progress" aria-label="Progresso da quest"></div>
-                        <p id="stepCounter" class="step-counter"></p>
-                    </div>
-                    <h2 id="stepTitle"></h2>
-                </div>
-                <div class="actions actions--inline">
-                    <button type="button" id="prevStep" class="btn btn-ghost">Voltar</button>
-                    <button type="button" id="nextStep" class="btn btn-primary">Pr&oacute;ximo Passo</button>
-                    <button type="button" id="restartQuest" class="btn btn-danger">Recome&ccedil;ar</button>
-                </div>
-            </div>
-
-            <div id="stepDescription" class="step-body"></div>
-        </section>
+        <footer id="actionBar" class="action-bar" hidden>
+            <button type="button" id="btnRestart" class="btn btn-danger btn-restart">Recome&ccedil;ar</button>
+            <button type="button" id="btnBack" class="btn btn-ghost">Voltar</button>
+            <button type="button" id="btnPrimary" class="btn btn-primary">Continuar</button>
+        </footer>
     </main>
 
     <div id="mapModal" class="modal" hidden>
@@ -76,7 +44,7 @@
         <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
             <header class="modal-header">
                 <div class="modal-title-row">
-                    <img id="mapModalNpc" class="npc-sprite npc-sprite--lg" alt="" width="64" height="64" hidden>
+                    <img id="mapModalNpc" class="npc-sprite npc-sprite--lg" alt="" width="72" height="72" hidden>
                     <div>
                         <h3 id="mapModalTitle">Localiza&ccedil;&atilde;o</h3>
                         <p id="mapModalCity" class="modal-city"></p>
@@ -100,6 +68,8 @@
             </footer>
         </div>
     </div>
+
+    <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
 
     <script src="data.js"></script>
     <script src="script.js"></script>

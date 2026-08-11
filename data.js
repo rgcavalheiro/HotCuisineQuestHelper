@@ -266,3 +266,125 @@ const steps = [
         ]
     }
 ];
+
+const JOURNEY_PHASES = [
+    { id: "prep", label: "Prepara\u00e7\u00e3o" },
+    { id: "rota", label: "Rota" },
+    { id: "final", label: "Finaliza\u00e7\u00e3o" }
+];
+
+function getStepPhase(stepIndex) {
+    const step = steps[stepIndex];
+    if (!step) return "prep";
+    if (step.collect) return "collect";
+    if (Array.isArray(step.description)) return "shop";
+    return "prep";
+}
+
+function getCityName(step) {
+    if (!step) return "";
+    if (step.collect) return "Edron";
+    if (!Array.isArray(step.description)) return "";
+    const match = step.title.match(/Compras em (.+)$/);
+    return match ? match[1] : "";
+}
+
+function getShoppingSteps() {
+    return steps
+        .map((step, index) => ({ step, index }))
+        .filter(({ step }) => Array.isArray(step.description));
+}
+
+function countStepItems(step) {
+    if (!step) return 0;
+    if (Array.isArray(step.description)) {
+        return step.description.reduce((sum, npc) => sum + npc.items.length, 0);
+    }
+    if (step.collect) return step.collect.length;
+    return 0;
+}
+
+function countStepNpcs(step) {
+    if (!step || !Array.isArray(step.description)) return 0;
+    return step.description.length;
+}
+
+function marketItemId(itemName) {
+    return "market:" + itemName;
+}
+
+function npcItemId(npcName, itemName) {
+    return "npc:" + npcName + ":" + itemName;
+}
+
+function collectItemId(itemName) {
+    return "collect:" + itemName;
+}
+
+function getAllQuestItems(multiplier) {
+    const qty = multiplier || 1;
+    const items = [];
+
+    marketItems.forEach((entry) => {
+        items.push({
+            id: marketItemId(entry.item),
+            item: entry.item,
+            quantity: entry.quantity * qty,
+            source: "market",
+            label: "Market"
+        });
+    });
+
+    steps.forEach((step) => {
+        if (Array.isArray(step.description)) {
+            const city = getCityName(step);
+            step.description.forEach((npcGroup) => {
+                npcGroup.items.forEach((entry) => {
+                    items.push({
+                        id: npcItemId(npcGroup.npc, entry.item),
+                        item: entry.item,
+                        quantity: entry.quantity * qty,
+                        source: "npc",
+                        npc: npcGroup.npc,
+                        city: city,
+                        label: npcGroup.npc
+                    });
+                });
+            });
+        }
+        if (step.collect) {
+            step.collect.forEach((entry) => {
+                items.push({
+                    id: collectItemId(entry.item),
+                    item: entry.item,
+                    quantity: entry.quantity * qty,
+                    source: "collect",
+                    label: "Coleta"
+                });
+            });
+        }
+    });
+
+    return items;
+}
+
+function getQuestStats(multiplier) {
+    const all = getAllQuestItems(multiplier || 1);
+    const shopping = getShoppingSteps();
+    return {
+        totalItems: all.length,
+        marketItems: marketItems.length,
+        cities: shopping.length,
+        steps: steps.length,
+        npcItems: all.filter((i) => i.source === "npc").length,
+        collectItems: all.filter((i) => i.source === "collect").length
+    };
+}
+
+function getNextCityName(stepIndex) {
+    for (let i = stepIndex + 1; i < steps.length; i++) {
+        const city = getCityName(steps[i]);
+        if (city && Array.isArray(steps[i].description)) return city;
+    }
+    return "";
+}

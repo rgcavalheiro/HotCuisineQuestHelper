@@ -1,50 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hot Cuisine Quest</title>
+    <title>Hot Cuisine Quest Helper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://static.wikia.nocookie.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Contêiner Principal com aparência de iPhone -->
-    <div id="iphoneContainer" class="container">
-        <!-- Tela Inicial -->
-        <div id="initialScreen" class="screen">
-            <h1>Hot Cuisine Quest</h1>
-            <p>Escolha quantas receitas você deseja fazer:</p>
-            <input type="range" id="recipeRange" min="1" max="10" value="1">
-            <span id="rangeValue">1</span> receita(s)
-            <button id="startQuest">Iniciar Quest</button>
-        </div>
+    <div class="page-bg" aria-hidden="true"></div>
 
-        <!-- Tela de Itens do Market -->
-        <div id="marketScreen" class="screen" style="display:none;">
-            <h2>Itens a serem comprados no Market</h2>
-            <table id="marketTable" class="market-table">
-                <thead>
-                    <tr>
-                        <th>Quantidade</th>
-                        <th>Item</th>
-                    </tr>
-                </thead>
-                <tbody id="marketItems"></tbody>
-            </table>
-            <div class="button-container">
-                <button id="goToSteps">Ir para os Passos</button>
+    <main id="app" class="app">
+        <header class="app-brand">
+            <div class="brand-text">
+                <p class="brand-kicker">Tibia Quest Helper</p>
+                <h1 class="brand-title">Hot Cuisine</h1>
             </div>
+            <button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" title="Apagar a luz">
+                <span class="theme-toggle-icon" aria-hidden="true">?</span>
+                <span class="theme-toggle-label">Apagar a luz</span>
+            </button>
+        </header>
+
+        <div id="journeyChrome" class="journey-chrome" hidden>
+            <nav id="journeyTracker" class="journey-tracker" aria-label="Fases da quest"></nav>
+            <p id="stepContext" class="step-context"></p>
         </div>
 
-        <!-- Tela de Passos da Quest -->
-        <div id="stepContent" class="screen" style="display:none;">
-            <h2 id="stepTitle"></h2>
-            <div id="stepDescription"></div>
-            <button id="nextStep">Próximo Passo</button>
-            <button id="restartQuest">Recomeçar</button> <!-- Botão de Recomeçar -->
+        <div id="viewRoot" class="view-root" aria-live="polite"></div>
+
+        <footer id="actionBar" class="action-bar" hidden>
+            <button type="button" id="btnRestart" class="btn btn-danger btn-restart">Recome&ccedil;ar</button>
+            <button type="button" id="btnBack" class="btn btn-ghost">Voltar</button>
+            <button type="button" id="btnPrimary" class="btn btn-primary">Continuar</button>
+        </footer>
+    </main>
+
+    <div id="mapModal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
+            <header class="modal-header">
+                <div class="modal-title-row">
+                    <img id="mapModalNpc" class="npc-sprite npc-sprite--lg" alt="" width="72" height="72" hidden>
+                    <div>
+                        <h3 id="mapModalTitle">Localiza&ccedil;&atilde;o</h3>
+                        <p id="mapModalCity" class="modal-city"></p>
+                    </div>
+                </div>
+                <button type="button" class="modal-close" data-close-modal aria-label="Fechar"></button>
+            </header>
+
+            <div class="minimap-frame">
+                <div id="minimapViewport" class="minimap-viewport">
+                    <img id="minimapImage" class="minimap-image" alt="Minimapa do Tibia" draggable="false">
+                    <div class="minimap-crosshair" aria-hidden="true"></div>
+                </div>
+                <p id="mapCoords" class="map-coords"></p>
+            </div>
+
+            <footer class="modal-footer">
+                <a id="mapExternalLink" class="btn btn-secondary" href="#" target="_blank" rel="noopener noreferrer">
+                    Abrir no TibiaMaps
+                </a>
+            </footer>
         </div>
     </div>
 
-    <!-- Inclusão dos arquivos de dados e lógica -->
+    <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>

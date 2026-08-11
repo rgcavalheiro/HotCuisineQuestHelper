@@ -1,50 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hot Cuisine Quest</title>
+    <title>Hot Cuisine Quest Helper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://static.wikia.nocookie.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Contêiner Principal com aparência de iPhone -->
-    <div id="iphoneContainer" class="container">
-        <!-- Tela Inicial -->
-        <div id="initialScreen" class="screen">
-            <h1>Hot Cuisine Quest</h1>
-            <p>Escolha quantas receitas você deseja fazer:</p>
-            <input type="range" id="recipeRange" min="1" max="10" value="1">
-            <span id="rangeValue">1</span> receita(s)
-            <button id="startQuest">Iniciar Quest</button>
-        </div>
+    <div class="page-bg" aria-hidden="true"></div>
 
-        <!-- Tela de Itens do Market -->
-        <div id="marketScreen" class="screen" style="display:none;">
-            <h2>Itens a serem comprados no Market</h2>
-            <table id="marketTable" class="market-table">
-                <thead>
-                    <tr>
-                        <th>Quantidade</th>
-                        <th>Item</th>
-                    </tr>
-                </thead>
-                <tbody id="marketItems"></tbody>
-            </table>
-            <div class="button-container">
-                <button id="goToSteps">Ir para os Passos</button>
+    <main id="app" class="app">
+        <header class="app-brand">
+            <p class="brand-kicker">Tibia Quest Helper</p>
+            <h1 class="brand-title">Hot Cuisine</h1>
+        </header>
+
+        <section id="initialScreen" class="screen screen--hero" aria-labelledby="heroHeading">
+            <div class="hero-copy">
+                <h2 id="heroHeading" class="hero-heading">Rota otimizada de compras</h2>
+                <p class="hero-lead">Monte sua lista, escolha quantas receitas fazer e siga cidade a cidade at&eacute; o chef.</p>
             </div>
-        </div>
 
-        <!-- Tela de Passos da Quest -->
-        <div id="stepContent" class="screen" style="display:none;">
-            <h2 id="stepTitle"></h2>
-            <div id="stepDescription"></div>
-            <button id="nextStep">Próximo Passo</button>
-            <button id="restartQuest">Recomeçar</button> <!-- Botão de Recomeçar -->
+            <div class="recipe-picker">
+                <label for="recipeRange">Receitas</label>
+                <div class="recipe-controls">
+                    <input type="range" id="recipeRange" min="1" max="10" value="1">
+                    <span id="rangeValue" class="recipe-count">1</span>
+                </div>
+            </div>
+
+            <button type="button" id="startQuest" class="btn btn-primary">Iniciar Quest</button>
+        </section>
+
+        <section id="marketScreen" class="screen" style="display:none;" aria-labelledby="marketHeading">
+            <div class="screen-header screen-header--row">
+                <div>
+                    <h2 id="marketHeading">Itens do Market</h2>
+                    <p class="screen-sub">Compre no depot antes de come&ccedil;ar a rota.</p>
+                </div>
+                <div class="actions actions--inline">
+                    <button type="button" id="backFromMarket" class="btn btn-ghost">Voltar</button>
+                    <button type="button" id="goToSteps" class="btn btn-primary">Ir para os Passos</button>
+                </div>
+            </div>
+
+            <div id="marketGrid" class="item-grid" aria-label="Lista de itens do market"></div>
+        </section>
+
+        <section id="stepContent" class="screen" style="display:none;" aria-labelledby="stepTitle">
+            <div class="screen-header screen-header--row">
+                <div class="step-heading-wrap">
+                    <div class="step-meta">
+                        <div id="stepProgress" class="step-progress" aria-label="Progresso da quest"></div>
+                        <p id="stepCounter" class="step-counter"></p>
+                    </div>
+                    <h2 id="stepTitle"></h2>
+                </div>
+                <div class="actions actions--inline">
+                    <button type="button" id="prevStep" class="btn btn-ghost">Voltar</button>
+                    <button type="button" id="nextStep" class="btn btn-primary">Pr&oacute;ximo Passo</button>
+                    <button type="button" id="restartQuest" class="btn btn-danger">Recome&ccedil;ar</button>
+                </div>
+            </div>
+
+            <div id="stepDescription" class="step-body"></div>
+        </section>
+    </main>
+
+    <div id="mapModal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
+            <header class="modal-header">
+                <div class="modal-title-row">
+                    <img id="mapModalNpc" class="npc-sprite npc-sprite--lg" alt="" width="64" height="64" hidden>
+                    <div>
+                        <h3 id="mapModalTitle">Localiza&ccedil;&atilde;o</h3>
+                        <p id="mapModalCity" class="modal-city"></p>
+                    </div>
+                </div>
+                <button type="button" class="modal-close" data-close-modal aria-label="Fechar"></button>
+            </header>
+
+            <div class="minimap-frame">
+                <div id="minimapViewport" class="minimap-viewport">
+                    <img id="minimapImage" class="minimap-image" alt="Minimapa do Tibia" draggable="false">
+                    <div class="minimap-crosshair" aria-hidden="true"></div>
+                </div>
+                <p id="mapCoords" class="map-coords"></p>
+            </div>
+
+            <footer class="modal-footer">
+                <a id="mapExternalLink" class="btn btn-secondary" href="#" target="_blank" rel="noopener noreferrer">
+                    Abrir no TibiaMaps
+                </a>
+            </footer>
         </div>
     </div>
 
-    <!-- Inclusão dos arquivos de dados e lógica -->
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
